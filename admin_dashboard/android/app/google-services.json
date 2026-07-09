@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "330824416065",
+    "project_id": "crimeapp-40f21",
+    "storage_bucket": "crimeapp-40f21.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:330824416065:android:e2170468f4b990bc8a3fc0",
+        "android_client_info": {
+          "package_name": "com.crimeapp.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVH4RUU6cFxAofGfmGI3EtUxGj9zbIJV4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:330824416065:android:dbc8a27f93f8d5078a3fc0",
+        "android_client_info": {
+          "package_name": "com.example.admin_dashboard"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVH4RUU6cFxAofGfmGI3EtUxGj9zbIJV4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:330824416065:android:65e984564b529e8f8a3fc0",
+        "android_client_info": {
+          "package_name": "com.example.mobile_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVH4RUU6cFxAofGfmGI3EtUxGj9zbIJV4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

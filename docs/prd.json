@@ -1,0 +1,165 @@
+{
+  "projectName": "crimeApp",
+  "version": "0.1.0",
+  "summary": "A Flutter and Firebase-powered crime and emergency reporting platform for Ghana with offline-first reporting, evidence upload, voice-note recording, and a web-based admin dashboard.",
+  "problemStatement": "Users often struggle to report incidents quickly due to poor connectivity, inaccurate location details, and limited access to formal reporting channels. The project addresses these issues with a structured, low-friction digital reporting experience.",
+  "targetUsers": [
+    "Civilians reporting crimes or emergencies",
+    "Admin users managing reports and case status",
+    "Local authorities and support staff who review urgent incidents"
+  ],
+  "goals": [
+    "Enable fast submission of crime and emergency reports",
+    "Support offline data capture and later synchronisation",
+    "Allow admin review, filtering, and follow-up actions",
+    "Protect sensitive evidence and sensitive personal data"
+  ],
+  "platforms": [
+    "Android",
+    "iOS",
+    "Web"
+  ],
+  "techStack": {
+    "mobileApp": "Flutter",
+    "adminDashboard": "Flutter Web",
+    "backend": "Firebase",
+    "database": "Firestore",
+    "storage": "Firebase Storage",
+    "authentication": "Firebase Authentication",
+    "serverLogic": "Cloud Functions",
+    "offlineStorage": "Hive or SQLite-compatible local storage"
+  },
+  "functionalRequirements": {
+    "mobileApp": [
+      "Register and sign in users",
+      "Display a home screen with Report Incident and Call 112 shortcuts",
+      "Allow users to create incident reports with category, urgency, description, location, and evidence",
+      "Support voice-note recording and playback",
+      "Save reports locally when offline and synchronise later",
+      "Show report status such as Pending, Uploading, Submitted, and Failed"
+    ],
+    "adminDashboard": [
+      "Allow signed-in admins to view incoming reports",
+      "Show dashboard statistics including pending, urgent, and resolved reports",
+      "Filter reports by category, urgency, status, and date",
+      "Display report details, evidence, and location on a map",
+      "Allow admins to update status, add notes, and flag spam or false reports",
+      "Provide real-time visual and audible alerts for urgent reports"
+    ],
+    "backend": [
+      "Use Firebase Authentication with role-based access",
+      "Apply Firestore and Storage security rules",
+      "Use Cloud Functions for media validation and orphan cleanup",
+      "Protect sensitive data and personally identifying evidence",
+      "Apply rate limiting and abuse prevention"
+    ]
+  },
+  "nonFunctionalRequirements": [
+    "Offline-first architecture",
+    "Secure HTTPS communication",
+    "Support poor connectivity and delayed uploads",
+    "Protect sensitive data and limit unnecessary personal information",
+    "Simple, emergency-friendly interface"
+  ],
+  "dataModel": {
+    "collections": [
+      {
+        "name": "users",
+        "purpose": "Stores user and admin profile data"
+      },
+      {
+        "name": "reports",
+        "purpose": "Stores submitted crime and emergency reports"
+      },
+      {
+        "name": "report_media",
+        "purpose": "Stores metadata for uploaded evidence files"
+      },
+      {
+        "name": "report_categories",
+        "purpose": "Stores configurable report categories"
+      },
+      {
+        "name": "admin_logs",
+        "purpose": "Stores admin audit actions"
+      },
+      {
+        "name": "notifications",
+        "purpose": "Stores notification records"
+      },
+      {
+        "name": "app_settings",
+        "purpose": "Stores system settings"
+      },
+      {
+        "name": "rate_limits",
+        "purpose": "Tracks per-device or per-account submission limits"
+      }
+    ]
+  },
+  "mvp": [
+    "Flutter mobile app",
+    "User registration and login",
+    "Incident reporting workflow",
+    "GPS capture and GhanaPostGPS fallback",
+    "Image upload",
+    "Voice-note reporting with local save and upload",
+    "Offline-first report save and sync",
+    "Firebase backend in europe-west",
+    "Admin dashboard",
+    "Report status updates",
+    "One-tap Call 112 shortcut"
+  ],
+  "timeline": [
+    "Week 1-2: Requirements and planning",
+    "Week 3-4: UI/UX design and project scaffolding",
+    "Week 5-6: Authentication and main screens",
+    "Week 7-9: Offline-first report creation flow",
+    "Week 10-11: Synchronisation engine",
+    "Week 12-13: Admin dashboard",
+    "Week 14: Testing and bug fixing",
+    "Week 15: Deployment and documentation",
+    "Week 16: Final review and presentation"
+  ],
+  "acceptanceCriteria": [
+    "Users can install and open the app",
+    "Users can create accounts and log in",
+    "Users can submit crime and emergency reports",
+    "Reports can be saved and submitted offline",
+    "Admins can view and update reports",
+    "Unauthorised users cannot access admin data",
+    "Urgent reports trigger a visible and audible alert in the admin dashboard"
+  ],
+  "constraints": [
+    "Development time is limited to around 16 weeks",
+    "iOS device testing may be constrained",
+    "Google Maps and Firebase usage may require billing setup",
+    "Video and audio uploads increase storage and bandwidth usage",
+    "Poor connectivity can affect real-time submissions"
+  ],
+  "risksAndMitigations": [
+    {
+      "risk": "Poor internet connectivity",
+      "mitigation": "Use offline-first local storage and background sync"
+    },
+    {
+      "risk": "Unauthorised access",
+      "mitigation": "Use Firebase authentication, custom claims, and Firestore rules"
+    },
+    {
+      "risk": "Duplicate offline submissions",
+      "mitigation": "Use client-generated UUIDs as Firestore document IDs"
+    },
+    {
+      "risk": "Large media files",
+      "mitigation": "Compress and limit file size where possible"
+    }
+  ],
+  "successMetrics": [
+    "Time taken to submit a report",
+    "Percentage of reports submitted with GPS location",
+    "Percentage of offline reports successfully synced",
+    "Number of successful voice-note reports submitted and played by admins",
+    "User satisfaction during testing"
+  ]
+}
