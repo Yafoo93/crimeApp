@@ -196,3 +196,33 @@ This project is intended for academic and demonstration purposes unless otherwis
 ## Contact
 
 For project collaboration or questions, please reach out through the repository maintainer.
+
+
+# MVP Scope
+
+## Mobile App
+- User registration/login
+- Home screen with Report Incident and Call 112
+- Offline-first report creation
+- GPS and GhanaPostGPS fallback
+- Image evidence
+- Voice note recording/playback
+- Background sync
+- My Reports and status tracking
+
+## Admin Dashboard
+- Admin login
+- Overview metrics
+- Report list and filters
+- Report details with evidence, voice note, and location
+- Status updates, notes, spam flag
+- Real-time urgent alert
+
+## Backend
+- Firebase Auth
+- Firestore
+- Firebase Storage
+- Cloud Functions
+- Firestore and Storage rules
+- Custom claims
+- Emulator workflow

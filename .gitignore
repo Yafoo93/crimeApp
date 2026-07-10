@@ -1,0 +1,10 @@
+node_modules/
+
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+
+*.log
+
+mobile_app/android/build/
+admin_dashboard/android/build/

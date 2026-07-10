@@ -1,0 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
+
+Future<void> connectFirebaseEmulators() async {
+  const useEmulators = bool.fromEnvironment('USE_FIREBASE_EMULATORS');
+
+  if (!useEmulators) return;
+
+  final host = kIsWeb || defaultTargetPlatform != TargetPlatform.android
+      ? 'localhost'
+      : '10.0.2.2';
+
+  FirebaseFirestore.instance.useFirestoreEmulator(host, 8080);
+  FirebaseStorage.instance.useStorageEmulator(host, 9199);
+}
