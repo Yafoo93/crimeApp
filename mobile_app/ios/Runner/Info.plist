@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Mobile App</string>
+	<string>Crime and Emergency Report</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -15,7 +15,15 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>mobile_app</string>
+	<string>Crime and Emergency Report</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Crime and Emergency Report uses the camera to capture incident evidence.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Crime and Emergency Report uses your location to attach accurate incident coordinates to reports.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Crime and Emergency Report uses the microphone to record voice-note reports.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Crime and Emergency Report uses your photo library so you can attach evidence to reports.</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>

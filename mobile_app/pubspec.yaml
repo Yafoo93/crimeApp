@@ -46,14 +46,14 @@ dependencies:
   uuid: ^4.5.3
   connectivity_plus: ^7.2.0
   permission_handler: ^12.0.3
-  geolocator: ^14.0.3
+  geolocator: ^14.0.2
   google_maps_flutter: ^2.17.1
   image_picker: ^1.2.3
-  file_picker: ^3.0.4
   path_provider: ^2.1.6
   hive: ^2.2.3
   record: ^7.1.1
   just_audio: ^0.10.6
+  hive_flutter: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -79,9 +79,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/images/crime_app_logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
