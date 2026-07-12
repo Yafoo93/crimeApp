@@ -128,6 +128,44 @@ test("admins can read reports and update operational fields", async () => {
   );
 });
 
+test("normal users cannot read all reports like admins", async () => {
+  const aliceDb = testEnv.authenticatedContext("alice", {role: "user"})
+    .firestore();
+  const bobDb = testEnv.authenticatedContext("bob", {role: "user"})
+    .firestore();
+
+  await assertSucceeds(
+    setDoc(doc(aliceDb, "reports/report-normal-denial"), reportData(
+      "report-normal-denial",
+      "alice"
+    ))
+  );
+
+  await assertFails(getDoc(doc(bobDb, "reports/report-normal-denial")));
+});
+
+test("normal users cannot create admin logs or admin notes", async () => {
+  const userDb = testEnv.authenticatedContext("alice", {role: "user"})
+    .firestore();
+
+  await assertFails(setDoc(doc(userDb, "admin_logs/log-denied"), {
+    adminId: "alice",
+    action: "updateReportStatus",
+    targetUserId: null,
+    reportId: "report-1",
+    before: null,
+    after: {status: "resolved"},
+    createdAt: serverTimestamp(),
+  }));
+
+  await assertFails(setDoc(doc(userDb, "admin_notes/note-denied"), {
+    reportId: "report-1",
+    adminId: "alice",
+    note: "Should not write.",
+    createdAt: serverTimestamp(),
+  }));
+});
+
 test("only admins can create audit logs", async () => {
   const userDb = testEnv.authenticatedContext("alice", {role: "user"})
     .firestore();

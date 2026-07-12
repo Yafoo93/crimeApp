@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'core/alerts/urgent_report_alert_tracker.dart';
 import 'core/firebase/firebase_emulators.dart';
 import 'core/theme/admin_theme.dart';
 import 'firebase_options.dart';
@@ -355,7 +356,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
   String _categoryFilter = 'all';
   AdminDateFilter _dateFilter = AdminDateFilter.all;
   String? _selectedReportId;
-  final Set<String> _alertedUrgentReports = <String>{};
+  final _urgentAlertTracker = UrgentReportAlertTracker();
 
   Stream<QuerySnapshot<Map<String, dynamic>>> get _reportsStream {
     return FirebaseFirestore.instance
@@ -389,24 +390,26 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
   }
 
   void _alertForUrgentReports(List<AdminReport> reports) {
-    final urgentReports = reports.where(
-      (report) => report.isUrgent && !report.isClosed,
+    final newUrgentReportIds =
+        _urgentAlertTracker.consumeNewUrgentReportIds(
+      reports.map(
+        (report) => UrgentReportAlertCandidate(
+          id: report.id,
+          urgency: report.urgency,
+          status: report.status,
+        ),
+      ),
     );
-    final newUrgentReports = urgentReports
-        .where((report) => !_alertedUrgentReports.contains(report.id))
-        .toList();
 
-    if (newUrgentReports.isEmpty) return;
-
-    _alertedUrgentReports.addAll(newUrgentReports.map((report) => report.id));
+    if (newUrgentReportIds.isEmpty) return;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       SystemSound.play(SystemSoundType.alert);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          backgroundColor: AdminTheme.primaryRed,
-          content: Text(
-            '${newUrgentReports.length} urgent report${newUrgentReports.length == 1 ? '' : 's'} need review.',
+            backgroundColor: AdminTheme.primaryRed,
+            content: Text(
+            '${newUrgentReportIds.length} urgent report${newUrgentReportIds.length == 1 ? '' : 's'} need review.',
           ),
         ),
       );
