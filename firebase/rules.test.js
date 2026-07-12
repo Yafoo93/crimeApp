@@ -148,6 +148,25 @@ test("only admins can create audit logs", async () => {
   await assertSucceeds(setDoc(doc(adminDb, "admin_logs/log-1"), logData));
 });
 
+test("only admins can read admin notes", async () => {
+  const userDb = testEnv.authenticatedContext("alice", {role: "user"})
+    .firestore();
+  const adminDb = testEnv.authenticatedContext("admin-1", {role: "admin"})
+    .firestore();
+
+  await testEnv.withSecurityRulesDisabled(async (context) => {
+    await setDoc(doc(context.firestore(), "admin_notes/note-1"), {
+      reportId: "report-1",
+      adminId: "admin-1",
+      note: "Reviewed evidence.",
+      createdAt: serverTimestamp(),
+    });
+  });
+
+  await assertFails(getDoc(doc(userDb, "admin_notes/note-1")));
+  await assertSucceeds(getDoc(doc(adminDb, "admin_notes/note-1")));
+});
+
 test("evidence files are private to owners and readable by admins", async () => {
   const aliceStorage = testEnv.authenticatedContext("alice", {role: "user"})
     .storage();

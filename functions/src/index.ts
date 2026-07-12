@@ -428,6 +428,15 @@ export const updateReportStatus = onCall(
 
     await reportRef.update(update);
 
+    if (adminNote && adminNote.length > 0) {
+      await db.collection("admin_notes").add({
+        reportId,
+        adminId: adminContext.uid,
+        note: adminNote,
+        createdAt: FieldValue.serverTimestamp(),
+      });
+    }
+
     await writeAdminLog({
       adminId: adminContext.uid,
       action: "updateReportStatus",
