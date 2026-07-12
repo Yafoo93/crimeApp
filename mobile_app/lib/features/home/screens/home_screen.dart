@@ -688,7 +688,7 @@ class _ReportsTab extends StatelessWidget {
       children: [
         ValueListenableBuilder(
           valueListenable: store.listenable(),
-          builder: (context, _, __) {
+          builder: (context, _, child) {
             final reports = store.reportsForOwner(ownerId);
 
             return Column(
@@ -918,14 +918,18 @@ class _ReportDetailCard extends StatelessWidget {
           const SizedBox(height: 16),
           Row(
             children: [
-              Text(
-                reportId,
-                style: const TextStyle(
-                  color: AppTheme.textMuted,
-                  fontSize: 12,
+              Expanded(
+                child: Text(
+                  reportId,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: AppTheme.textMuted,
+                    fontSize: 12,
+                  ),
                 ),
               ),
-              const SizedBox(width: 18),
+              const SizedBox(width: 12),
               Text(
                 time,
                 style: const TextStyle(
@@ -933,7 +937,7 @@ class _ReportDetailCard extends StatelessWidget {
                   fontSize: 12,
                 ),
               ),
-              const Spacer(),
+              const SizedBox(width: 8),
               TextButton(
                 onPressed: () {},
                 child: const Row(

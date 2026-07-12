@@ -5,7 +5,7 @@ import '../../../shared/widgets/safe_alert_button.dart';
 import '../data/local_report_store.dart';
 import '../domain/local_report.dart';
 import 'report_flow_widgets.dart';
-import 'report_preview_screen.dart';
+import 'report_location_screen.dart';
 
 class IncidentDescriptionScreen extends StatefulWidget {
   const IncidentDescriptionScreen({
@@ -57,7 +57,7 @@ class _IncidentDescriptionScreenState extends State<IncidentDescriptionScreen> {
     setState(() => _isSaving = false);
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) => ReportPreviewScreen(report: updated),
+        builder: (_) => ReportLocationScreen(report: updated),
       ),
     );
   }
@@ -89,8 +89,8 @@ class _IncidentDescriptionScreenState extends State<IncidentDescriptionScreen> {
           ),
           const SizedBox(height: 24),
           SafeAlertButton(
-            label: 'PREVIEW REPORT',
-            icon: Icons.article_outlined,
+            label: 'CONTINUE',
+            icon: Icons.arrow_forward_rounded,
             isLoading: _isSaving,
             onPressed: _continue,
           ),

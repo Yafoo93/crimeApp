@@ -46,7 +46,7 @@ class ReportConfirmationScreen extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               Text(
-                'Your report is stored locally as pending upload. It can be synced when upload handling is connected.',
+                'Your report is stored locally and queued for upload. It will sync automatically when a connection is available.',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       color: AppTheme.textMuted,

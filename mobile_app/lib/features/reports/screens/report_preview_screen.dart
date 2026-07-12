@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/theme/app_theme.dart';
 import '../../../shared/widgets/safe_alert_button.dart';
 import '../data/local_report_store.dart';
+import '../data/report_sync_service.dart';
 import '../domain/local_report.dart';
 import 'report_confirmation_screen.dart';
 import 'report_flow_widgets.dart';
@@ -26,6 +29,7 @@ class _ReportPreviewScreenState extends State<ReportPreviewScreen> {
   Future<void> _submit() async {
     setState(() => _isSubmitting = true);
     final updated = await LocalReportStore().markPendingUpload(widget.report);
+    unawaited(ReportSyncService().syncPendingReports());
 
     if (!mounted) return;
     setState(() => _isSubmitting = false);
@@ -42,6 +46,7 @@ class _ReportPreviewScreenState extends State<ReportPreviewScreen> {
     final created = DateFormat.yMMMd()
         .add_jm()
         .format(widget.report.createdAt.toLocal());
+    final location = widget.report.location;
 
     return ReportFlowScaffold(
       title: 'Preview report',
@@ -56,6 +61,14 @@ class _ReportPreviewScreenState extends State<ReportPreviewScreen> {
               _PreviewRow('Urgency', widget.report.urgency?.label ?? 'Not set'),
               _PreviewRow('Status', widget.report.status.label),
               _PreviewRow('Created', created),
+              _PreviewRow('Location', _locationSummary(location)),
+              _PreviewRow('Images', '${widget.report.images.length} attached'),
+              _PreviewRow(
+                'Voice note',
+                widget.report.voiceNote == null
+                    ? 'Not attached'
+                    : '${widget.report.voiceNote!.durationSeconds}s attached',
+              ),
             ],
           ),
           const SizedBox(height: 16),
@@ -82,6 +95,20 @@ class _ReportPreviewScreenState extends State<ReportPreviewScreen> {
       ),
     );
   }
+}
+
+String _locationSummary(LocalReportLocation location) {
+  final parts = <String>[];
+  if (location.hasCoordinates) {
+    parts.add(
+      '${location.latitude!.toStringAsFixed(5)}, '
+      '${location.longitude!.toStringAsFixed(5)}',
+    );
+  }
+  if (location.ghanaPostGps != null && location.ghanaPostGps!.isNotEmpty) {
+    parts.add(location.ghanaPostGps!);
+  }
+  return parts.isEmpty ? 'Not set' : parts.join(' - ');
 }
 
 class _PreviewPanel extends StatelessWidget {

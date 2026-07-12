@@ -28,6 +28,16 @@ class LocalReportStore {
     return reports;
   }
 
+  List<LocalReport> pendingSyncReports(String ownerId) {
+    return reportsForOwner(ownerId)
+        .where(
+          (report) =>
+              report.status == LocalReportStatus.pendingUpload ||
+              report.status == LocalReportStatus.failed,
+        )
+        .toList();
+  }
+
   LocalReport? find(String id) {
     final data = _box.get(id);
     if (data == null) return null;
@@ -80,10 +90,109 @@ class LocalReportStore {
     return updated;
   }
 
+  Future<LocalReport> updateLocation({
+    required LocalReport report,
+    required LocalReportLocation location,
+  }) async {
+    final updated = report.copyWith(
+      location: location,
+      updatedAt: DateTime.now().toUtc(),
+    );
+    await save(updated);
+    return updated;
+  }
+
+  Future<LocalReport> addImageEvidence({
+    required LocalReport report,
+    required LocalImageEvidence image,
+  }) async {
+    final updated = report.copyWith(
+      images: [...report.images, image],
+      updatedAt: DateTime.now().toUtc(),
+    );
+    await save(updated);
+    return updated;
+  }
+
+  Future<LocalReport> removeImageEvidence({
+    required LocalReport report,
+    required LocalImageEvidence image,
+  }) async {
+    final updated = report.copyWith(
+      images: report.images
+          .where((existing) => existing.path != image.path)
+          .toList(),
+      updatedAt: DateTime.now().toUtc(),
+    );
+    await save(updated);
+    return updated;
+  }
+
+  Future<LocalReport> saveVoiceEvidence({
+    required LocalReport report,
+    required LocalVoiceEvidence voiceNote,
+  }) async {
+    final updated = report.copyWith(
+      voiceNote: voiceNote,
+      updatedAt: DateTime.now().toUtc(),
+    );
+    await save(updated);
+    return updated;
+  }
+
+  Future<LocalReport> clearVoiceEvidence(LocalReport report) async {
+    final updated = report.copyWith(
+      clearVoiceNote: true,
+      updatedAt: DateTime.now().toUtc(),
+    );
+    await save(updated);
+    return updated;
+  }
+
   Future<LocalReport> markPendingUpload(LocalReport report) async {
     final updated = report.copyWith(
       status: LocalReportStatus.pendingUpload,
       updatedAt: DateTime.now().toUtc(),
+    );
+    await save(updated);
+    return updated;
+  }
+
+  Future<LocalReport> markUploading(LocalReport report) async {
+    final now = DateTime.now().toUtc();
+    final updated = report.copyWith(
+      status: LocalReportStatus.uploading,
+      syncAttempts: report.syncAttempts + 1,
+      clearLastSyncError: true,
+      lastSyncAttemptAt: now,
+      updatedAt: now,
+    );
+    await save(updated);
+    return updated;
+  }
+
+  Future<LocalReport> markSyncFailed({
+    required LocalReport report,
+    required String error,
+  }) async {
+    final now = DateTime.now().toUtc();
+    final updated = report.copyWith(
+      status: LocalReportStatus.failed,
+      lastSyncError: error,
+      lastSyncAttemptAt: now,
+      updatedAt: now,
+    );
+    await save(updated);
+    return updated;
+  }
+
+  Future<LocalReport> markSubmitted(LocalReport report) async {
+    final now = DateTime.now().toUtc();
+    final updated = report.copyWith(
+      status: LocalReportStatus.submitted,
+      clearLastSyncError: true,
+      submittedAt: now,
+      updatedAt: now,
     );
     await save(updated);
     return updated;
