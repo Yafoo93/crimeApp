@@ -10,9 +10,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:admin_dashboard/main.dart';
 
 void main() {
-  testWidgets('renders SafeAlert admin shell', (WidgetTester tester) async {
-    await tester.pumpWidget(const SafeAlertAdminApp());
+  testWidgets('renders crime report admin shell', (WidgetTester tester) async {
+    await tester.pumpWidget(const CrimeReportAdminApp());
 
-    expect(find.text('SafeAlert Admin Dashboard'), findsOneWidget);
+    expect(find.text('Admin Dashboard'), findsOneWidget);
   });
 }
